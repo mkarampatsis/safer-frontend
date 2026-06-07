@@ -1,0 +1,141 @@
+<header class="top-app-bar fixed-top d-flex justify-content-between align-items-center">
+  <div class="d-flex align-items-center">
+    <img alt="Officer Profile" class="profile-img me-3"
+      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgtih8pvXYjyvu5hpyBPGcnzWpDER0EdHAe3p8GDVn-Y1_jvasGjd3v1yaaKbuq2fRhVqSb0fzlYvxJeQuYH67M2gvIJCuf2Bzgt52P9MKQCsHeZGr9jJkz40YdRac4Bx4MNIdzQa12c3K38ilklajZZetpxSgjtLFHPCi-IATfnIp5KgX-DzpM4v5c6dkQ76qGn9nJhxJ9YWhlo6WDUwwUIldZ_Qv_mTWAu7FhQac4Pkgq7B1p3HEGKyUe2ogL2F3GeanCXR-AdKI" />
+    <h1 class="h4 mb-0 fw-bold text-primary-custom">SAFER</h1>
+  </div>
+  <button aria-label="Notifications" class="btn btn-link text-primary-custom p-0">
+    <span class="material-symbols-outlined">notifications</span>
+  </button>
+</header>
+<main class="main-content container-fluid">
+  <!-- System Status -->
+  <section class="mb-4">
+    <div class="d-flex justify-content-between align-items-end mb-3">
+      <h2 class="h5 mb-0 fw-semibold">System Status</h2>
+      <div class="label-caps text-success d-flex align-items-center">
+        <span class="pulse-indicator me-2"></span>
+        Operational
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-6">
+        <div class="status-card">
+          <div class="d-flex align-items-center mb-2 text-muted">
+            <span class="material-symbols-outlined fs-6 me-1">sensors</span>
+            <span class="label-caps">Sensors</span>
+          </div>
+          <div class="h3 fw-bold mb-0">98.2%</div>
+          <div class="small text-success">412 Online</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="status-card">
+          <div class="d-flex align-items-center mb-2 text-muted">
+            <span class="material-symbols-outlined fs-6 me-1">speed</span>
+            <span class="label-caps">Latency</span>
+          </div>
+          <div class="h3 fw-bold mb-0">42ms</div>
+          <div class="small text-success">Optimal</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Alerts Feed -->
+  <section class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h5 mb-0 fw-semibold">Alerts Feed</h2>
+      <button class="btn btn-link btn-sm text-decoration-none text-primary-custom label-caps d-flex align-items-center">
+        FILTER <span class="material-symbols-outlined ms-1 fs-6">filter_list</span>
+      </button>
+    </div>
+    <!-- Critical Alert -->
+    <article class="alert-card severity-critical">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge badge-critical label-caps py-1 px-2">Critical</span>
+          <span class="data-mono text-muted">14:22:04</span>
+        </div>
+        <button class="btn btn-link text-muted p-0"><span class="material-symbols-outlined">more_vert</span></button>
+      </div>
+      <h3 class="h6 fw-bold mb-1">Flood Risk High: Sector 7</h3>
+      <p class="small text-muted mb-3">Water level sensor ID: S-702 detected rapid rise (+1.2m/hr). Immediate
+        verification required for emergency broadcast.</p>
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary flex-grow-1 label-caps py-2"
+          style="background-color: var(--primary); border: none;">Verify Alert</button>
+        <button class="btn btn-light border label-caps px-4 py-2"
+          style="background-color: var(--surface-variant);">Map</button>
+      </div>
+    </article>
+    <!-- Warning Alert -->
+    <article class="alert-card severity-warning">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge badge-warning label-caps py-1 px-2">Warning</span>
+          <span class="data-mono text-muted">13:58:12</span>
+        </div>
+        <button class="btn btn-link text-muted p-0"><span class="material-symbols-outlined">more_vert</span></button>
+      </div>
+      <h3 class="h6 fw-bold mb-1">Wind Gust Threshold</h3>
+      <p class="small text-muted mb-0">Anemometer S-224 reporting 85km/h. Monitoring for structural integrity risk in
+        construction zone A.</p>
+    </article>
+    <!-- Advisory Alert -->
+    <article class="alert-card severity-advisory">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge badge-advisory label-caps py-1 px-2">Advisory</span>
+          <span class="data-mono text-muted">12:15:30</span>
+        </div>
+        <button class="btn btn-link text-muted p-0"><span class="material-symbols-outlined">more_vert</span></button>
+      </div>
+      <h3 class="h6 fw-bold mb-1">Routine Maintenance</h3>
+      <p class="small text-muted mb-0">Cluster B sensors scheduled for firmware update at 02:00 local time.</p>
+    </article>
+  </section>
+  <!-- Manage Panel -->
+  <section class="manage-panel mb-4">
+    <div class="d-flex align-items-center mb-4">
+      <span class="material-symbols-outlined text-primary-custom fs-1 me-3">settings_alert</span>
+      <div>
+        <h2 class="h6 mb-0 fw-bold">Manage Alerts</h2>
+        <p class="small text-muted mb-0">Configure automated broadcast triggers.</p>
+      </div>
+    </div>
+    <div class="form-check-card">
+      <label class="form-check-label mb-0" for="checkCritical">Auto-Broadcast Critical</label>
+      <input checked="" class="form-check-input" id="checkCritical"
+        style="width: 24px; height: 24px; border-radius: 4px; border-color: var(--outline-variant);" type="checkbox"
+        value="" />
+    </div>
+    <div class="form-check-card">
+      <label class="form-check-label mb-0" for="checkSMS">SMS Notifications</label>
+      <input checked="" class="form-check-input" id="checkSMS"
+        style="width: 24px; height: 24px; border-radius: 4px; border-color: var(--outline-variant);" type="checkbox"
+        value="" />
+    </div>
+    <button class="btn btn-outline-primary-custom w-100 label-caps mt-2">
+      Edit Global Triggers
+    </button>
+  </section>
+</main>
+<!-- Bottom Navigation -->
+<nav class="bottom-nav fixed-bottom d-flex justify-content-around align-items-center">
+  <a class="nav-link-custom" href="#">
+    <span class="material-symbols-outlined">map</span>
+    <span class="label-caps" style="font-size: 10px; margin-top: 2px;">Cadastre</span>
+  </a>
+  <a class="nav-link-custom" href="#">
+    <span class="material-symbols-outlined">analytics</span>
+    <span class="label-caps" style="font-size: 10px; margin-top: 2px;">Risk</span>
+  </a>
+  <a class="nav-link-custom active" href="#">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+    <span class="label-caps" style="font-size: 10px; margin-top: 2px;">Warning</span>
+  </a>
+  <a class="nav-link-custom" href="#">
+    <span class="material-symbols-outlined">groups</span>
+    <span class="label-caps" style="font-size: 10px; margin-top: 2px;">Toolkit</span>
+  </a>
+</nav>

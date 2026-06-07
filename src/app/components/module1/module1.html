@@ -1,0 +1,161 @@
+<main class="container-fluid px-3" style="margin-top: 80px;">
+  <!-- Module Header -->
+  <section class="mb-4">
+    <!-- <span class="font-label-caps text-secondary d-block mb-1">MODULE M2</span> -->
+    <h2 class="font-headline fs-3 text-on-surface mb-1">Multi-hazard Risk Prediction</h2>
+    <p class="small text-on-surface-variant mb-0">Active analysis of environmental stressors and predictive risk
+      mapping.</p>
+  </section>
+  <!-- Heatmap Card -->
+  <section class="card border-0 shadow-sm overflow-hidden mb-4">
+    <div class="card-header bg-white border-bottom-0 py-3 d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">analytics</span>
+        <h3 class="h6 mb-0 fw-bold">Active Risk Heatmap</h3>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <div class="rounded-circle bg-danger pulse" style="width: 8px; height: 8px;"></div>
+        <span class="font-label-caps text-danger" style="font-size: 10px;">LIVE ANALYSIS</span>
+      </div>
+    </div>
+    <div class="position-relative" style="height: 250px;">
+      <img class="w-100 h-100 object-fit-cover opacity-75" data-alt="Satellite heatmap view"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzyJe_LlLM9B5EAh-SkgKkFUoWrw4QB9jqQzZH3c1d1raLSvTeCcRETwdi7Z7xeA1l-8pHoEA8ZMwwpF1XFq4-0YX5239Cwv5Zum3VL6DwKtD-6Wn6ltxbebhswqEs5uFyOfamiq3PAkjdnGD5nOHfx1kptYM2lRLjuCuYp5gfwf5arGDMHN0K-WqJW0IG_lKYsCxWJb9z8DYBYWX3KlTgq8g4w8006YFMyxqM9PZ0XiUBrd7ai06e7oR3yOSsHjhmsSgQ-3ksMpMU" />
+      <div class="position-absolute bottom-0 start-0 end-0 p-3">
+        <div class="glass-panel p-2 rounded-3">
+          <div class="font-label-caps text-on-surface mb-1" style="font-size: 10px;">RISK MAGNITUDE</div>
+          <div class="risk-gradient"></div>
+          <div class="d-flex justify-content-between mt-1 font-label-caps text-on-surface-variant"
+            style="font-size: 10px;">
+            <span>LOW</span>
+            <span>MODERATE</span>
+            <span>EXTREME</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Controls -->
+  <section class="row g-3 mb-4">
+    <div class="col-6">
+      <label class="font-label-caps text-on-surface-variant d-block mb-1" style="font-size: 10px;">CLIMATE
+        SCENARIO</label>
+      <select class="form-select form-select-custom">
+        <option>SSP2-4.5 (Moderate)</option>
+        <option>SSP5-8.5 (High Emission)</option>
+        <option>SSP1-2.6 (Low Carbon)</option>
+      </select>
+    </div>
+    <div class="col-6">
+      <label class="font-label-caps text-on-surface-variant d-block mb-1" style="font-size: 10px;">TIME HORIZON</label>
+      <select class="form-select form-select-custom">
+        <option>2030 Short-term</option>
+        <option>2050 Mid-term</option>
+        <option>2100 Long-term</option>
+      </select>
+    </div>
+  </section>
+  <!-- Predictive Models -->
+  <section class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h3 class="h6 mb-0 fw-bold">Predictive Models</h3>
+      <button class="btn btn-link btn-sm text-primary font-label-caps p-0 text-decoration-none">REFRESH DATA</button>
+    </div>
+    <div class="d-grid gap-2">
+      <!-- Model: Climate -->
+      <div class="model-card p-3 d-flex align-items-center justify-content-between shadow-sm">
+        <div class="d-flex align-items-center gap-3">
+          <div class="model-icon-box">
+            <span class="material-symbols-outlined">thermostat</span>
+          </div>
+          <div>
+            <div class="fw-bold text-on-surface" style="font-size: 15px;">Climate Projection</div>
+            <div class="small text-on-surface-variant" style="font-size: 11px;">Source: KEMEA Global</div>
+          </div>
+        </div>
+        <div class="text-end">
+          <span class="badge rounded-pill bg-success-subtle text-success font-label-caps mb-1"
+            style="font-size: 9px;">READY</span>
+          <div class="font-data-mono text-on-surface-variant">Acc: 94.2%</div>
+        </div>
+      </div>
+      <!-- Model: Flood -->
+      <div class="model-card p-3 d-flex align-items-center justify-content-between shadow-sm">
+        <div class="d-flex align-items-center gap-3">
+          <div class="model-icon-box">
+            <span class="material-symbols-outlined">tsunami</span>
+          </div>
+          <div>
+            <div class="fw-bold text-on-surface" style="font-size: 15px;">Hydrological Flood</div>
+            <div class="small text-on-surface-variant" style="font-size: 11px;">Source: Interreg Basin Data</div>
+          </div>
+        </div>
+        <div class="text-end">
+          <span class="badge rounded-pill bg-danger-subtle text-danger font-label-caps mb-1"
+            style="font-size: 9px;">CRITICAL</span>
+          <div class="font-data-mono text-on-surface-variant">Acc: 89.5%</div>
+        </div>
+      </div>
+      <!-- Model: Storm -->
+      <div class="model-card p-3 d-flex align-items-center justify-content-between shadow-sm">
+        <div class="d-flex align-items-center gap-3">
+          <div class="model-icon-box">
+            <span class="material-symbols-outlined">air</span>
+          </div>
+          <div>
+            <div class="fw-bold text-on-surface" style="font-size: 15px;">Storm Surge Peak</div>
+            <div class="small text-on-surface-variant" style="font-size: 11px;">Source: KEMEA Coastal</div>
+          </div>
+        </div>
+        <div class="text-end">
+          <span class="badge rounded-pill bg-primary-subtle text-primary font-label-caps mb-1"
+            style="font-size: 9px;">STABLE</span>
+          <div class="font-data-mono text-on-surface-variant">Acc: 91.0%</div>
+        </div>
+      </div>
+      <!-- Model: Fire -->
+      <div class="model-card p-3 d-flex align-items-center justify-content-between shadow-sm">
+        <div class="d-flex align-items-center gap-3">
+          <div class="model-icon-box">
+            <span class="material-symbols-outlined">local_fire_department</span>
+          </div>
+          <div>
+            <div class="fw-bold text-on-surface" style="font-size: 15px;">Wildfire Propagation</div>
+            <div class="small text-on-surface-variant" style="font-size: 11px;">Source: Satellite Imagery</div>
+          </div>
+        </div>
+        <div class="text-end">
+          <span class="badge rounded-pill bg-warning-subtle text-warning font-label-caps mb-1"
+            style="font-size: 9px; color: #93000a !important; background-color: var(--error-container) !important;">ALERT</span>
+          <div class="font-data-mono text-on-surface-variant">Acc: 87.8%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Run Action -->
+  <section class="text-center pb-5">
+    <button class="btn btn-primary-custom w-100 d-flex align-items-center justify-content-center gap-2 mb-2 text-white">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+      Run New Analysis
+    </button>
+    <p class="small text-on-surface-variant font-data-mono">Last updated: Today, 14:45 PM</p>
+  </section>
+</main>
+<nav class="bottom-nav">
+  <a class="nav-item-custom" href="#">
+    <span class="material-symbols-outlined">map</span>
+    <span class="font-label-caps mt-1" style="font-size: 9px;">Cadastre</span>
+  </a>
+  <a class="nav-item-custom active" href="#">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+    <span class="font-label-caps mt-1" style="font-size: 9px;">Risk</span>
+  </a>
+  <a class="nav-item-custom" href="#">
+    <span class="material-symbols-outlined">warning</span>
+    <span class="font-label-caps mt-1" style="font-size: 9px;">Warning</span>
+  </a>
+  <a class="nav-item-custom" href="#">
+    <span class="material-symbols-outlined">groups</span>
+    <span class="font-label-caps mt-1" style="font-size: 9px;">Toolkit</span>
+  </a>
+</nav>

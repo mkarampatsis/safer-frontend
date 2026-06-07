@@ -1,0 +1,22 @@
+/* HR Styling */
+.safer-green-color {
+  color: #98c93b;
+}
+
+.btn-outline-success {
+  color: #98c93b !important;
+  border-color: #98c93b !important;
+}
+
+.btn-outline-success:hover {
+  color: #fff !important;
+  background-color: #98c93b !important;
+  border-color: #98c93b !important;
+}
+
+.btn-outline-success:focus,
+.btn-outline-success:active {
+  color: #fff !important;
+  background-color: #98c93b !important;
+  border-color: #98c93b !important;
+}

@@ -1,0 +1,11 @@
+.custom-size {
+  width: 150px; /* Adjust this number to change image sizes */
+  height: auto;
+  object-fit: cover;
+}
+
+.custom-size-larger {
+  width: 200px; /* Adjust this number to change image sizes */
+  height: auto;
+  object-fit: cover;
+}

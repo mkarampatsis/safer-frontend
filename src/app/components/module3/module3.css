@@ -1,0 +1,216 @@
+:root {
+  --primary: #00288e;
+  --on-primary: #ffffff;
+  --primary-container: #1e40af;
+  --on-primary-container: #a8b8ff;
+  --secondary: #416900;
+  --on-secondary: #ffffff;
+  --secondary-container: #acf847;
+  --on-secondary-container: #457000;
+  --tertiary: #70000c;
+  --error: #ba1a1a;
+  --background: #f8f9ff;
+  --on-background: #0b1c30;
+  --surface: #f8f9ff;
+  --on-surface: #0b1c30;
+  --surface-variant: #d3e4fe;
+  --on-surface-variant: #444653;
+  --outline: #757684;
+  --outline-variant: #c4c5d5;
+  --surface-container-low: #eff4ff;
+  --surface-container: #e5eeff;
+  --surface-container-high: #dce9ff;
+  --surface-container-highest: #d3e4fe;
+  --surface-container-lowest: #ffffff;
+
+  --border-radius-sm: 0.125rem;
+  --border-radius-md: 0.25rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-full: 0.75rem;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--on-surface);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.h-display {
+  font-family: 'Hanken Grotesk', sans-serif;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* Top Bar */
+.top-app-bar {
+  height: 64px;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--outline-variant);
+  padding: 0 16px;
+  z-index: 1030;
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--outline-variant);
+  object-fit: cover;
+}
+
+/* Custom spacing */
+.main-content {
+  padding-top: 80px;
+  padding-bottom: 100px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Status Dashboard */
+.status-card {
+  background-color: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--border-radius-full);
+  padding: 16px;
+}
+
+.label-caps {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.data-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+
+/* Alerts Feed */
+.alert-card {
+  background-color: #fff;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--border-radius-md);
+  padding: 16px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.severity-critical {
+  border-left: 4px solid var(--error);
+  box-shadow: 0 0 15px rgba(186, 26, 26, 0.1);
+}
+
+.severity-warning {
+  border-left: 4px solid var(--secondary);
+}
+
+.severity-advisory {
+  border-left: 4px solid var(--primary);
+}
+
+.badge-critical {
+  background-color: rgba(186, 26, 26, 0.1);
+  color: var(--error);
+}
+
+.badge-warning {
+  background-color: rgba(65, 105, 0, 0.1);
+  color: var(--secondary);
+}
+
+.badge-advisory {
+  background-color: rgba(0, 40, 142, 0.1);
+  color: var(--primary);
+}
+
+/* Management Panel */
+.manage-panel {
+  background-color: var(--surface-container-high);
+  border-radius: var(--border-radius-full);
+  padding: 24px;
+}
+
+.form-check-card {
+  background-color: var(--surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--border-radius-lg);
+  padding: 16px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-outline-primary-custom {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-weight: 700;
+  padding: 12px;
+  border-radius: var(--border-radius-lg);
+}
+
+/* Bottom Nav */
+.bottom-nav {
+  background-color: var(--surface-container-highest);
+  border-top: 1px solid var(--outline-variant);
+  height: 72px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-link-custom {
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 10px;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.nav-link-custom.active {
+  background-color: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+.nav-link-custom .material-symbols-outlined {
+  font-size: 24px;
+}
+
+/* Custom Utilities */
+.text-primary-custom {
+  color: var(--primary) !important;
+}
+
+.pulse-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: var(--secondary);
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

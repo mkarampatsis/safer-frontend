@@ -1,0 +1,117 @@
+<main style="padding-top: 56px; padding-bottom: 100px;">
+  <!-- Map -->
+  <section class="map-section">
+    <img alt="Map Region" class="map-image"
+      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgZGEp6u6Kv_4rA0H4oLuktH__60RCK73kegJIYNzo4Xc3WUJWoHX2yTNiazgLAM9GcscWosWQsp_UaoqTUmGFObCh0FC35wxuYcOTVZgHHn-oSx3Nc5QMqXY6O4nfmGsGpI5CWqhOVvj5mArB1xq-Dqrv-qRrV6ygSyZwy_CI2RTTmP9xqcAZW2d1TM8vJhboR7g8uZ_3m13aBseDKBQzTDXesj6Zf3RnGLLV3DV1Ck0PynSOaPMqAqzoJIMbL6zGrOPJU9lzvr0p" />
+    <div class="map-gradient-overlay"></div>
+    <div class="map-controls">
+      <button class="btn btn-map-control"><span class="material-symbols-outlined">add</span></button>
+      <button class="btn btn-map-control"><span class="material-symbols-outlined">remove</span></button>
+      <button class="btn btn-map-control active-location"><span
+          class="material-symbols-outlined fill-icon">my_location</span></button>
+    </div>
+  </section>
+  <!-- Content -->
+  <div class="content-canvas">
+    <!-- Stats Summary -->
+    <div class="bento-card d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <span class="label-caps text-muted d-block mb-1">Active Monitoring</span>
+        <div class="d-flex align-items-baseline">
+          <span class="h1 mb-0 text-primary fw-bold">124</span>
+          <span class="ms-2 fw-semibold text-muted">SITES</span>
+        </div>
+      </div>
+      <div class="site-icon-box" style="background: rgba(30, 64, 175, 0.1); color: var(--rsn-primary);">
+        <span class="material-symbols-outlined fill-icon">hub</span>
+      </div>
+    </div>
+    <!-- Search -->
+    <div class="mb-3">
+      <div class="search-input-wrapper mb-3">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input class="form-control form-control-custom" placeholder="Search site ID, location..." type="text" />
+      </div>
+      <div class="filter-scroll">
+        <button class="btn btn-primary btn-filter d-flex align-items-center gap-1">
+          <span class="material-symbols-outlined fs-6">filter_list</span>
+          <span>FILTERS</span>
+        </button>
+        <button class="btn btn-outline-secondary btn-filter bg-white">STATUS: ALL</button>
+        <button class="btn btn-outline-secondary btn-filter bg-white">TYPE: ALL</button>
+      </div>
+    </div>
+    <!-- Categories -->
+    <div>
+      <h2 class="section-header">Site Categories</h2>
+      <div class="d-flex flex-column gap-3">
+        <!-- Hydrological -->
+        <a class="site-card" href="#">
+          <div class="site-icon-box" style="background: rgba(0, 40, 142, 0.1); color: var(--rsn-primary);">
+            <span class="material-symbols-outlined fill-icon">water_drop</span>
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="h6 mb-0 fw-bold">Hydrological</h3>
+              <span class="status-badge" style="background: rgba(25, 135, 84, 0.1); color: #157347;">Safe</span>
+            </div>
+            <small class="text-muted">48 Active Stations • No alerts</small>
+          </div>
+          <span class="material-symbols-outlined text-muted">chevron_right</span>
+        </a>
+        <!-- Seismic -->
+        <a class="site-card" href="#">
+          <div class="site-icon-box" style="background: rgba(155, 0, 21, 0.1); color: var(--rsn-tertiary);">
+            <span class="material-symbols-outlined fill-icon">earthquake</span>
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="h6 mb-0 fw-bold">Seismic</h3>
+              <span class="status-badge"
+                style="background: rgba(186, 26, 26, 0.1); color: var(--rsn-error);">Danger</span>
+            </div>
+            <small class="text-muted">32 Active Stations • 2 Anomalies</small>
+          </div>
+          <span class="material-symbols-outlined text-muted">chevron_right</span>
+        </a>
+        <!-- Coastal -->
+        <a class="site-card" href="#">
+          <div class="site-icon-box" style="background: rgba(65, 105, 0, 0.1); color: var(--rsn-secondary);">
+            <span class="material-symbols-outlined fill-icon">tsunami</span>
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="h6 mb-0 fw-bold">Coastal</h3>
+              <span class="status-badge" style="background: rgba(255, 193, 7, 0.1); color: #997404;">Warning</span>
+            </div>
+            <small class="text-muted">44 Active Stations • High Tide</small>
+          </div>
+          <span class="material-symbols-outlined text-muted">chevron_right</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- FAB -->
+<button class="fab">
+  <span class="material-symbols-outlined fs-2">add_location_alt</span>
+</button>
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+  <a class="nav-item active" href="#">
+    <span class="material-symbols-outlined fill-icon">map</span>
+    <span class="nav-label label-caps">Cadastre</span>
+  </a>
+  <a class="nav-item" href="#">
+    <span class="material-symbols-outlined">analytics</span>
+    <span class="nav-label label-caps">Risk</span>
+  </a>
+  <a class="nav-item" href="#">
+    <span class="material-symbols-outlined">warning</span>
+    <span class="nav-label label-caps">Warning</span>
+  </a>
+  <a class="nav-item" href="#">
+    <span class="material-symbols-outlined">groups</span>
+    <span class="nav-label label-caps">Toolkit</span>
+  </a>
+</nav>

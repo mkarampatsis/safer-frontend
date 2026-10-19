@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-between m-3">
+  <span class="h5">File upload</span>
+  <button type="button" class="btn-close" (click)="modalRef.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <span class="fw-semibold">Select file</span>
+      <span class="text-muted small">
+        Maximum size 16MB, allowed types: .dxf .jpg</span>
+    </div>
+    <div class="card-body">
+      <div class="row d-flex align-items-center">
+        <div class="col-auto">
+          <label for="fldFile" class="form-label">Choose file:</label>
+        </div>
+        <div class="col-6">
+          <input class="form-control" for="fldFile" type="file" (change)="selectFile($event)" />
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-success btn-sm" [disabled]="!currentFile()" (click)="upload()">
+            Upload
+          </button>
+        </div>
+      </div>
+
+      @if (progress) {
+      <div class="progress my-3">
+        <div class="progress-bar progress-bar-info" role="progressbar" attr.aria-valuenow="{{ progress }}"
+          aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: progress + '%' }">
+          {{ progress }}%
+        </div>
+      </div>
+      }
+
+      @if (message) {
+      <div class="alert alert-secondary mt-2" role="alert">
+        {{ message }}
+      </div>
+      }
+
+      @if (fileInfos) {
+      <div class="card mt-3">
+        <div class="card-header">Files you have uploaded</div>
+        <ol class="list-group list-group-numbered">
+         @for (file of (fileInfos | async)?.files; track file) {
+          <li class="list-group-item">
+            fileID: {{file.split('~')[0]}}, filename: {{ file.split('~')[1] }}
+          </li>
+          }
+        </ol>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-end m-3">
+  <button ngbAutofocus type="button" class="btn btn-primary" (click)="modalRef.close()">
+    Return
+  </button>
+</div>

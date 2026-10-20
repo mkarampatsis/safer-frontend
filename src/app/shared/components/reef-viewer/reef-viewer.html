@@ -1,1 +1,48 @@
-<div #viewer class="viewer"></div>
+<!-- <div #viewer class="viewer"></div> -->
+<div class="layout">
+
+  <aside class="viewer-sidebar">
+
+    <h3>Dataset</h3>
+
+    @if (dataset(); as ds) {
+
+    <div>Points: {{ ds.points }}</div>
+
+    <div>Cells: {{ ds.cells }}</div>
+
+    }
+
+    <hr>
+
+    <h3>Fields</h3>
+
+    @for (field of fields(); track field) {
+
+    <button class="field-button" (click)="selectField(field)">
+      {{ field }}
+    </button>
+
+    }
+
+    <hr>
+
+    <h3>View</h3>
+
+    <label>
+      <input type="checkbox" [checked]="wireframe()" (change)="toggleWireframe($event)" />
+      Wireframe
+    </label>
+
+    <br>
+
+    <label>
+      <input type="checkbox" [checked]="edges()" (change)="toggleEdges($event)" />
+      Edges
+    </label>
+
+  </aside>
+
+  <div #viewer class="viewer"></div>
+
+</div>

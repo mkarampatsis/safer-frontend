@@ -1,9 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  AfterViewInit
-} from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Sidebar } from 'src/app/shared/components/sidebar/sidebar';
 import { ReefViewer } from 'src/app/shared/components/reef-viewer/reef-viewer';
 
@@ -25,80 +20,73 @@ import vtkInteractorStyleTrackballCamera from '@kitware/vtk.js/Interaction/Style
   styleUrl: './risk-prediction-tool.css',
   templateUrl: './risk-prediction-tool.html',
 })
-export class RiskPredictionTool implements AfterViewInit {
- @ViewChild('viewer', { static: true })
-  viewer!: ElementRef<HTMLDivElement>;
+// export class RiskPredictionTool implements AfterViewInit {
+export class RiskPredictionTool {
+  // @ViewChild('viewer', { static: true })
+  // viewer!: ElementRef<HTMLDivElement>;
 
-  async ngAfterViewInit(): Promise<void> {
+  // async ngAfterViewInit(): Promise<void> {
+  //   const renderWindow = vtkRenderWindow.newInstance();
 
-    const renderWindow = vtkRenderWindow.newInstance();
+  //   const renderer = vtkRenderer.newInstance({
+  //     background: [0.2, 0.2, 0.2],
+  //   });
 
-    const renderer = vtkRenderer.newInstance({
-      background: [0.2, 0.2, 0.2],
-    });
+  //   renderWindow.addRenderer(renderer);
 
-    renderWindow.addRenderer(renderer);
+  //   const openGLRenderWindow = vtkOpenGLRenderWindow.newInstance();
 
-    const openGLRenderWindow = vtkOpenGLRenderWindow.newInstance();
+  //   renderWindow.addView(openGLRenderWindow);
 
-    renderWindow.addView(openGLRenderWindow);
+  //   const container = this.viewer.nativeElement;
 
-    const container = this.viewer.nativeElement;
+  //   openGLRenderWindow.setContainer(container);
 
-    openGLRenderWindow.setContainer(container);
+  //   const rect = container.getBoundingClientRect();
 
-    const rect = container.getBoundingClientRect();
+  //   openGLRenderWindow.setSize(rect.width, rect.height);
 
-    openGLRenderWindow.setSize(
-      rect.width,
-      rect.height
-    );
+  //   const interactor = vtkRenderWindowInteractor.newInstance();
 
-    const interactor = vtkRenderWindowInteractor.newInstance();
+  //   interactor.setView(openGLRenderWindow);
 
-    interactor.setView(openGLRenderWindow);
+  //   interactor.initialize();
 
-    interactor.initialize();
+  //   interactor.bindEvents(container);
 
-    interactor.bindEvents(container);
+  //   interactor.setInteractorStyle(vtkInteractorStyleTrackballCamera.newInstance());
 
-    interactor.setInteractorStyle(
-      vtkInteractorStyleTrackballCamera.newInstance()
-    );
+  //   const response = await fetch('/assets/models/REEF3D-NHFLOW-FSF-00002475-000001.vtp');
 
-    const response = await fetch('/assets/models/REEF3D-NHFLOW-FSF-00002475-000001.vtp');
+  //   const arrayBuffer = await response.arrayBuffer();
 
-    const arrayBuffer = await response.arrayBuffer();
+  //   const reader = vtkXMLPolyDataReader.newInstance();
+  //   reader.parseAsArrayBuffer(arrayBuffer);
 
-    const reader = vtkXMLPolyDataReader.newInstance();
-    reader.parseAsArrayBuffer(arrayBuffer);
+  //   const mapper = vtkMapper.newInstance();
 
-    const mapper = vtkMapper.newInstance();
+  //   mapper.setInputData(reader.getOutputData());
+  //   // ====
+  //   // const polyData = reader.getOutputData();
 
-    mapper.setInputData(
-      reader.getOutputData()
-    );
-    // ====
-    // const polyData = reader.getOutputData();
+  //   // console.log(polyData);
+  //   // console.log('Points:', polyData.getPoints().getNumberOfPoints());
+  //   // console.log('Polys:', polyData.getPolys()?.getNumberOfValues());
+  //   // const pointData = polyData.getPointData();
 
-    // console.log(polyData);
-    // console.log('Points:', polyData.getPoints().getNumberOfPoints());
-    // console.log('Polys:', polyData.getPolys()?.getNumberOfValues());
-    // const pointData = polyData.getPointData();
+  //   // console.log(
+  //   //   pointData.getArrays().map((a: { getName: () => any; }) => a.getName())
+  //   // );
 
-    // console.log(
-    //   pointData.getArrays().map((a: { getName: () => any; }) => a.getName())
-    // );
+  //   // =====
+  //   const actor = vtkActor.newInstance();
 
-    // =====
-    const actor = vtkActor.newInstance();
+  //   actor.setMapper(mapper);
 
-    actor.setMapper(mapper);
+  //   renderer.addActor(actor);
 
-    renderer.addActor(actor);
+  //   renderer.resetCamera();
 
-    renderer.resetCamera();
-
-    renderWindow.render();
-  }
+  //   renderWindow.render();
+  // }
 }

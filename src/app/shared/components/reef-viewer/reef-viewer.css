@@ -1,0 +1,23 @@
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.viewer-sidebar {
+  width: 320px;
+  padding: 1rem;
+  background: #1e293b;
+  color: white;
+  overflow: auto;
+}
+
+.viewer {
+  flex: 1;
+}
+
+.field-button {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+}

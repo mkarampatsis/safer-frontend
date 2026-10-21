@@ -14,6 +14,5 @@ export const routes: Routes = [
   { path: 'module4', component: Module4 },
   { path: 'landing', component: Landing },
   { path: 'risk-prediction-tool', component: RiskPredictionTool},
-  {path: 'reef-viewer', component: ReefViewer},
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
 ];

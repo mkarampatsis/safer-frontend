@@ -11,6 +11,7 @@ import vtkRenderWindowInteractor from '@kitware/vtk.js/Rendering/Core/RenderWind
 import vtkInteractorStyleTrackballCamera from '@kitware/vtk.js/Interaction/Style/InteractorStyleTrackballCamera';
 
 import vtkXMLPolyDataReader from '@kitware/vtk.js/IO/XML/XMLPolyDataReader';
+import { FieldInfo } from '../interfaces/vtk-dataset.interface';
 
 @Service()
 export class VtkViewerService {
@@ -144,5 +145,44 @@ export class VtkViewerService {
     this.actor.getProperty().setEdgeVisibility(enabled);
 
     this.renderWindow.render();
+  }
+
+  getFieldRange(fieldName: string): [number, number] {
+    const input = this.mapper.getInputData();
+
+    if (!input) {
+      return [0, 0];
+    }
+
+    const array = input.getPointData().getArrayByName(fieldName);
+
+    if (!array) {
+      return [0, 0];
+    }
+
+    return array.getRange();
+  }
+
+  getFieldInfo(fieldName: string): FieldInfo | null {
+    const input = this.mapper.getInputData();
+
+    if (!input) {
+      return null;
+    }
+
+    const array = input.getPointData().getArrayByName(fieldName);
+
+    if (!array) {
+      return null;
+    }
+
+    const range = array.getRange();
+
+    return {
+      name: fieldName,
+      min: range[0],
+      max: range[1],
+      components: array.getNumberOfComponents(),
+    };
   }
 }

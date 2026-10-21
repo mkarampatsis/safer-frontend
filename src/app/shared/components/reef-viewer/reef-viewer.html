@@ -1,31 +1,25 @@
 <!-- <div #viewer class="viewer"></div> -->
 <div class="layout">
-
   <aside class="viewer-sidebar">
-
     <h3>Dataset</h3>
 
     @if (dataset(); as ds) {
+      <div>Points: {{ ds.points }}</div>
 
-    <div>Points: {{ ds.points }}</div>
-
-    <div>Cells: {{ ds.cells }}</div>
-
+      <div>Cells: {{ ds.cells }}</div>
     }
 
-    <hr>
+    <hr />
 
     <h3>Fields</h3>
 
     @for (field of fields(); track field) {
-
-    <button class="field-button" (click)="selectField(field)">
-      {{ field }}
-    </button>
-
+      <button class="field-button" (click)="selectField(field)">
+        {{ field }}
+      </button>
     }
 
-    <hr>
+    <hr />
 
     <h3>View</h3>
 
@@ -34,15 +28,94 @@
       Wireframe
     </label>
 
-    <br>
+    <br />
 
     <label>
       <input type="checkbox" [checked]="edges()" (change)="toggleEdges($event)" />
       Edges
     </label>
 
+    @if (activeField()) {
+      <hr />
+
+      <h3>Legend</h3>
+
+      <div>
+        {{ activeField() }}
+      </div>
+
+      <div>
+        Min:
+        {{ activeRange()?.[0]?.toFixed(3) }}
+      </div>
+
+      <div>
+        Max:
+        {{ activeRange()?.[1]?.toFixed(3) }}
+      </div>
+    }
+
+    <div class="legend">
+      <!-- <span>
+        {{ activeRange()?.[1]?.toFixed(2) }}
+      </span>
+
+      <div class="color-bar"></div>
+
+      <span>
+        {{ activeRange()?.[0]?.toFixed(2) }}
+      </span> -->
+      <div>
+        {{ selectedFieldInfo()?.max?.toFixed(2) }}
+      </div>
+
+      <div class="legend-bar"></div>
+
+      <div>
+        {{ selectedFieldInfo()?.min?.toFixed(2) }}
+      </div>
+    </div>
+
+    <!-- <button (click)="play()">Play</button>
+
+    <button (click)="pause()">Pause</button>
+
+    <input
+      type="range"
+      [min]="0"
+      [max]="frameCount() - 1"
+      [value]="currentFrame()"
+      (input)="setFrame($event)"
+    /> -->
+
+    <hr />
+
+    <h3>Time Series</h3>
+
+    <div>Frame {{ currentFrame() }}</div>
+
+    <input
+      type="range"
+      [min]="1"
+      [max]="frameCount()"
+      max="30"
+      [value]="currentFrame()"
+      [value]="frameRate()"
+      (input)="onFrameChanged($event)"
+      /* (input)="setFrameRate($event)" */
+    />
+    <div>{{ frameRate() }} fps</div>
+    <div>
+      <button (click)="play()" [disabled]="isPlaying()">Play</button>
+
+      <button (click)="pause()" [disabled]="!isPlaying()">Pause</button>
+    </div>
   </aside>
 
-  <div #viewer class="viewer"></div>
-
+  <div class="viewer-container">
+    <!-- @if (loading()) {
+      <div class="loading-overlay">Loading frame...</div>
+    } -->
+    <div #viewer class="viewer"></div>
+  </div>
 </div>

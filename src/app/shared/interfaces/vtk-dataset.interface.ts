@@ -23,3 +23,15 @@ export interface ViewerState {
   wireframe: boolean;
   edges: boolean;
 }
+
+export interface TimeSeriesFrame {
+  step: number;
+  file: string;
+}
+
+export interface FieldInfo {
+  name: string;
+  min: number;
+  max: number;
+  components: number;
+}

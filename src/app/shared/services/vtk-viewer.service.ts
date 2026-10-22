@@ -1,17 +1,15 @@
 import { Service } from '@angular/core';
+import { FieldInfo } from '../interfaces/vtk-dataset.interface';
 
 import vtkActor from '@kitware/vtk.js/Rendering/Core/Actor';
 import vtkMapper from '@kitware/vtk.js/Rendering/Core/Mapper';
 import vtkRenderer from '@kitware/vtk.js/Rendering/Core/Renderer';
 import vtkRenderWindow from '@kitware/vtk.js/Rendering/Core/RenderWindow';
 import vtkOpenGLRenderWindow from '@kitware/vtk.js/Rendering/OpenGL/RenderWindow';
-
 import vtkRenderWindowInteractor from '@kitware/vtk.js/Rendering/Core/RenderWindowInteractor';
-
 import vtkInteractorStyleTrackballCamera from '@kitware/vtk.js/Interaction/Style/InteractorStyleTrackballCamera';
-
 import vtkXMLPolyDataReader from '@kitware/vtk.js/IO/XML/XMLPolyDataReader';
-import { FieldInfo } from '../interfaces/vtk-dataset.interface';
+import vtkColorTransferFunction from '@kitware/vtk.js/Rendering/Core/ColorTransferFunction';
 
 @Service()
 export class VtkViewerService {
@@ -19,6 +17,7 @@ export class VtkViewerService {
   private renderer!: vtkRenderer;
   private actor!: vtkActor;
   private mapper!: vtkMapper;
+  private lookupTable = vtkColorTransferFunction.newInstance();
 
   initialize(container: HTMLElement): void {
     this.renderWindow = vtkRenderWindow.newInstance();
@@ -56,6 +55,13 @@ export class VtkViewerService {
     this.actor.setMapper(this.mapper);
 
     this.renderer.addActor(this.actor);
+
+    this.lookupTable.applyColorMap({
+      Name: 'Cool to Warm',
+      RGBPoints: [0.0, 0.231, 0.298, 0.753, 0.5, 0.865, 0.865, 0.865, 1.0, 0.706, 0.016, 0.15],
+    });
+
+    this.lookupTable.updateRange();
   }
 
   async loadVtp(fileUrl: string): Promise<void> {
@@ -125,7 +131,59 @@ export class VtkViewerService {
       .map((array: { getName: () => any }) => array.getName());
   }
 
+  getColorSamples(): string[] {
+    const colors: string[] = [];
+
+    for (let i = 0; i < 10; i++) {
+      const rgb = [0, 0, 0];
+
+      this.lookupTable.getColor(i / 9, rgb);
+
+      colors.push(
+        `rgb(
+        ${Math.round(rgb[0] * 255)},
+        ${Math.round(rgb[1] * 255)},
+        ${Math.round(rgb[2] * 255)}
+      )`,
+      );
+    }
+
+    return colors;
+  }
+
+  // setActiveField(fieldName: string): void {
+  //   this.mapper.setColorByArrayName(fieldName);
+
+  //   this.mapper.setScalarModeToUsePointFieldData();
+
+  //   this.mapper.setScalarVisibility(true);
+
+  //   this.renderWindow.render();
+  // }
+
   setActiveField(fieldName: string): void {
+    const input = this.mapper.getInputData();
+
+    if (!input) {
+      return;
+    }
+
+    const array = input.getPointData().getArrayByName(fieldName);
+
+    if (!array) {
+      return;
+    }
+
+    const range = array.getRange();
+
+    this.lookupTable.setMappingRange(range[0], range[1]);
+
+    this.lookupTable.updateRange();
+
+    this.mapper.setLookupTable(this.lookupTable);
+
+    this.mapper.setScalarRange(range[0], range[1]);
+
     this.mapper.setColorByArrayName(fieldName);
 
     this.mapper.setScalarModeToUsePointFieldData();

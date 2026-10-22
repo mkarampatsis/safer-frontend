@@ -1,9 +1,12 @@
 import { AfterViewInit, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { VtkViewerService } from 'src/app/shared/services/vtk-viewer.service';
 import { FieldInfo } from '../../interfaces/vtk-dataset.interface';
 
+import '@kitware/vtk.js/Rendering/Profiles/Geometry';
+
 @Component({
-  imports: [],
+  imports: [DecimalPipe],
   selector: 'app-reef-viewer',
   styleUrl: './reef-viewer.css',
   templateUrl: './reef-viewer.html',
@@ -44,6 +47,9 @@ export class ReefViewer implements AfterViewInit {
   // For fields
   readonly selectedFieldInfo = signal<FieldInfo | null>(null);
 
+  // for colors
+  legendColors: string[] = [];
+
   // async ngAfterViewInit() {
   //   this.vtkViewer.initialize(this.viewer.nativeElement);
 
@@ -70,6 +76,8 @@ export class ReefViewer implements AfterViewInit {
     this.vtkViewer.setActiveField(field);
     // this.activeRange.set(this.vtkViewer.getFieldRange(field));
     this.selectedFieldInfo.set(this.vtkViewer.getFieldInfo(field));
+
+    this.legendColors = this.vtkViewer.getColorSamples();
   }
 
   toggleWireframe(event: Event): void {
@@ -166,5 +174,11 @@ export class ReefViewer implements AfterViewInit {
 
       await new Promise((resolve) => setTimeout(resolve, 1000 / this.frameRate()));
     }
+  }
+
+  setFrameRate(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
+
+    this.frameRate.set(value);
   }
 }

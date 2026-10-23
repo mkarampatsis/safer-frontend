@@ -96,7 +96,7 @@ export class ReefViewer implements AfterViewInit {
   private buildFrameName(frame: number): string {
     const padded = frame.toString().padStart(6, '0');
 
-    return `/assets/models/REEF3D-NHFLOW-FSF-00002475-${padded}.vtp`;
+    return `assets/models/REEF3D-NHFLOW-FSF-00002475-${padded}.vtp`;
   }
 
   // async loadFrame(frameNumber: number): Promise<void> {

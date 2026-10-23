@@ -6,7 +6,7 @@
   min-height: 800px;
 } */
 
-.legend-bar {
+/* .legend-bar {
   width: 30px;
   height: 220px;
 
@@ -21,4 +21,24 @@
   );
 
   border-radius: 4px;
+} */
+
+.legend-bar {
+  display: flex;
+  height: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: linear-gradient(
+    to top,
+    #0000ff,
+    #00ffff,
+    #00ff00,
+    #ffff00,
+    #ff8000,
+    #ff0000
+  );
+}
+
+.legend-segment {
+  flex: 1;
 }

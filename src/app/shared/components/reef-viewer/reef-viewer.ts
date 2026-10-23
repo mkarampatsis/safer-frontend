@@ -50,34 +50,31 @@ export class ReefViewer implements AfterViewInit {
   // for colors
   legendColors: string[] = [];
 
-  // async ngAfterViewInit() {
-  //   this.vtkViewer.initialize(this.viewer.nativeElement);
-
-  //   await this.vtkViewer.loadVtp('/assets/models/REEF3D-NHFLOW-FSF-00002475-000001.vtp');
-
-  //   console.log(this.vtkViewer.getScalarFields());
-  // }
-
   async ngAfterViewInit(): Promise<void> {
     this.vtkViewer.initialize(this.viewer.nativeElement);
 
     await this.vtkViewer.loadVtp('/assets/models/REEF3D-NHFLOW-FSF-00002475-000001.vtp');
 
-    this.fields.set(this.vtkViewer.getFields());
-
     this.dataset.set(this.vtkViewer.getDatasetInfo());
 
-    console.log(this.fields());
+    const fields = this.vtkViewer.getFields();
+
+    this.fields.set(fields);
+
+    if (fields.length > 0) {
+      this.selectField(fields[0]);
+    }
   }
 
   selectField(field: string): void {
     this.activeField.set(field);
 
     this.vtkViewer.setActiveField(field);
-    // this.activeRange.set(this.vtkViewer.getFieldRange(field));
+
     this.selectedFieldInfo.set(this.vtkViewer.getFieldInfo(field));
 
     this.legendColors = this.vtkViewer.getColorSamples();
+    console.log(this.legendColors);
   }
 
   toggleWireframe(event: Event): void {

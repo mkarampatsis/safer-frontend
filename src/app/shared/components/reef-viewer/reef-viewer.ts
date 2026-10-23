@@ -56,8 +56,8 @@ export class ReefViewer implements AfterViewInit {
   async ngAfterViewInit(): Promise<void> {
     this.vtkViewer.initialize(this.viewer.nativeElement);
 
-    await this.vtkViewer.loadVtp(this.modelUri+'/models/REEF3D-NHFLOW-FSF-00002475-000001.vtp');
-
+    await this.vtkViewer.loadVtp(`${this.modelUri}/models/REEF3D-NHFLOW-FSF-00002475-000001.vtp`);
+    
     this.dataset.set(this.vtkViewer.getDatasetInfo());
 
     const fields = this.vtkViewer.getFields();
@@ -99,7 +99,7 @@ export class ReefViewer implements AfterViewInit {
   private buildFrameName(frame: number): string {
     const padded = frame.toString().padStart(6, '0');
 
-    return `/assets/models/REEF3D-NHFLOW-FSF-00002475-${padded}.vtp`;
+    return `${this.modelUri}/models/REEF3D-NHFLOW-FSF-00002475-${padded}.vtp`;
   }
 
   // async loadFrame(frameNumber: number): Promise<void> {

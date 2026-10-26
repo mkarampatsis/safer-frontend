@@ -35,3 +35,8 @@ export interface FieldInfo {
   max: number;
   components: number;
 }
+
+export interface UploadedFrame {
+  frame: number;
+  file: File;
+}

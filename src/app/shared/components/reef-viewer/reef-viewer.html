@@ -201,6 +201,79 @@
 
         }
 
+        <!-- Upload FIle -->
+        <!-- <div class="card shadow-sm">
+
+          <div class="card-header">
+            Dataset Upload
+          </div>
+
+          <div class="card-body">
+
+            <input class="form-control" type="file" accept=".vtp" multiple (change)="onFilesSelected($event)">
+
+          </div>
+
+        </div> -->
+
+        <div class="card shadow-sm">
+
+          <div class="card-header">
+            Upload Simulation
+          </div>
+
+          <div class="card-body">
+
+            <div class="upload-dropzone" [class.drag-over]="dragOver()" (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+
+              <div class="text-center">
+
+                <h6 class="mb-2">
+                  Drop VTP Files Here
+                </h6>
+
+                <p class="text-muted small mb-3">
+                  REEF3D / OpenFOAM Timesteps
+                </p>
+
+                <input class="form-control" type="file" accept=".vtp" multiple (change)="onFilesSelected($event)">
+
+              </div>
+
+            </div>
+
+            @if (uploadedFrames().length > 0) {
+
+            <div class="alert alert-success mt-3 mb-0">
+
+              <div>
+                <strong>
+                  {{ uploadedFrames().length }}
+                </strong>
+                files loaded
+              </div>
+
+              <small class="text-muted">
+
+                Frame
+                {{ uploadedFrames()[0].frame }}
+
+                →
+
+                Frame
+                {{ uploadedFrames()[uploadedFrames().length - 1].frame }}
+
+              </small>
+
+            </div>
+
+            }
+
+          </div>
+
+        </div>
+
         <!-- Time Series -->
         <div class="card shadow-sm">
 

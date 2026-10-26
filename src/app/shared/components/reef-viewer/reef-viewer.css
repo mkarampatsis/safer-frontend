@@ -28,17 +28,28 @@
   height: 20px;
   border-radius: 4px;
   overflow: hidden;
-  background: linear-gradient(
-    to top,
-    #0000ff,
-    #00ffff,
-    #00ff00,
-    #ffff00,
-    #ff8000,
-    #ff0000
-  );
+  background: linear-gradient(to top,
+      #0000ff,
+      #00ffff,
+      #00ff00,
+      #ffff00,
+      #ff8000,
+      #ff0000);
 }
 
 .legend-segment {
   flex: 1;
+}
+
+.upload-dropzone {
+  border: 2px dashed #0d6efd;
+  border-radius: 0.5rem;
+  background: #f8f9fa;
+  transition: 0.2s ease;
+  padding: 1rem;
+}
+
+.upload-dropzone.drag-over {
+  background: #e7f1ff;
+  border-color: #084298;
 }

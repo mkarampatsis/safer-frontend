@@ -82,6 +82,22 @@ export class VtkViewerService {
     this.renderWindow.render();
   }
 
+  async loadVtpFromFile(file: File): Promise<void> {
+    const arrayBuffer = await file.arrayBuffer();
+
+    const reader = vtkXMLPolyDataReader.newInstance();
+
+    reader.parseAsArrayBuffer(arrayBuffer);
+
+    const polyData = reader.getOutputData();
+
+    this.mapper.setInputData(polyData);
+
+    this.renderer.resetCamera();
+
+    this.renderWindow.render();
+  }
+
   getScalarFields(): string[] {
     const input = this.mapper.getInputData();
 

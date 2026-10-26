@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { VtkViewerService } from 'src/app/shared/services/vtk-viewer.service';
-import { FieldInfo } from '../../interfaces/vtk-dataset.interface';
+import { FieldInfo } from 'src/app/shared/interfaces/vtk-dataset.interface';
+import { UploadedFrame } from 'src/app/shared/interfaces/vtk-dataset.interface';
 import { environment } from 'src/environments/environment';
 
 import '@kitware/vtk.js/Rendering/Profiles/Geometry';
@@ -53,11 +54,16 @@ export class ReefViewer implements AfterViewInit {
   // for colors
   legendColors: string[] = [];
 
+  // for uploading file
+  readonly uploadedFrames = signal<UploadedFrame[]>([]);
+  readonly dragOver = signal(false);
+  readonly uploadedFileCount = signal(0);
+
   async ngAfterViewInit(): Promise<void> {
     this.vtkViewer.initialize(this.viewer.nativeElement);
 
     await this.vtkViewer.loadVtp(`${this.modelUri}/models/REEF3D-NHFLOW-FSF-00002475-000001.vtp`);
-    
+
     this.dataset.set(this.vtkViewer.getDatasetInfo());
 
     const fields = this.vtkViewer.getFields();
@@ -77,7 +83,7 @@ export class ReefViewer implements AfterViewInit {
     this.selectedFieldInfo.set(this.vtkViewer.getFieldInfo(field));
 
     this.legendColors = this.vtkViewer.getColorSamples();
-    console.log(this.legendColors);
+    // console.log(this.legendColors);
   }
 
   toggleWireframe(event: Event): void {
@@ -122,10 +128,16 @@ export class ReefViewer implements AfterViewInit {
     }
   }
 
-  async onFrameChanged(event: Event): Promise<void> {
-    const value = Number((event.target as HTMLInputElement).value);
+  // async onFrameChanged(event: Event): Promise<void> {
+  //   const value = Number((event.target as HTMLInputElement).value);
 
-    await this.loadFrame(value);
+  //   await this.loadFrame(value);
+  // }
+
+  async onFrameChanged(event: Event): Promise<void> {
+    const index = Number((event.target as HTMLInputElement).value) - 1;
+
+    await this.loadUploadedFrame(index);
   }
 
   play(): void {
@@ -157,20 +169,42 @@ export class ReefViewer implements AfterViewInit {
     this.isPlaying.set(false);
   }
 
+  // private async playbackLoop(): Promise<void> {
+  //   while (this.isPlaying()) {
+  //     // let next = this.currentFrame() + 1;
+
+  //     // if (next > this.frameCount()) {
+  //     //   next = 1;
+  //     // }
+
+  //     // await this.loadFrame(next);
+
+  //     // await new Promise((resolve) => setTimeout(resolve, 300));
+  //     const next = this.currentFrame() + 1 > this.frameCount() ? 1 : this.currentFrame() + 1;
+
+  //     await this.loadFrame(next);
+
+  //     await new Promise((resolve) => setTimeout(resolve, 1000 / this.frameRate()));
+  //   }
+  // }
+
   private async playbackLoop(): Promise<void> {
     while (this.isPlaying()) {
-      // let next = this.currentFrame() + 1;
+      const frames = this.uploadedFrames();
 
-      // if (next > this.frameCount()) {
-      //   next = 1;
-      // }
+      if (!frames.length) {
+        this.pause();
 
-      // await this.loadFrame(next);
+        return;
+      }
 
-      // await new Promise((resolve) => setTimeout(resolve, 300));
-      const next = this.currentFrame() + 1 > this.frameCount() ? 1 : this.currentFrame() + 1;
+      let next = this.currentFrame();
 
-      await this.loadFrame(next);
+      if (next >= frames.length) {
+        next = 0;
+      }
+
+      await this.loadUploadedFrame(next);
 
       await new Promise((resolve) => setTimeout(resolve, 1000 / this.frameRate()));
     }
@@ -180,5 +214,141 @@ export class ReefViewer implements AfterViewInit {
     const value = Number((event.target as HTMLInputElement).value);
 
     this.frameRate.set(value);
+  }
+
+  // Upload file procedures
+  // async onFilesSelected(event: Event): Promise<void> {
+  //   const input = event.target as HTMLInputElement;
+
+  //   const files = Array.from(input.files ?? []);
+
+  //   if (!files.length) {
+  //     return;
+  //   }
+
+  //   const frames = files
+  //     .map((file) => {
+  //       const match = file.name.match(/-(\d+)\.vtp$/i);
+
+  //       return {
+  //         frame: Number(match?.[1] ?? 0),
+
+  //         file,
+  //       };
+  //     })
+  //     .sort((a, b) => a.frame - b.frame);
+
+  //   this.uploadedFrames.set(frames);
+
+  //   this.frameCount.set(frames.length);
+
+  //   await this.loadUploadedFrame(0);
+  // }
+  async onFilesSelected(event: Event): Promise<void> {
+    const target = event.target as HTMLInputElement;
+
+    const files = Array.from(target.files ?? []);
+
+    await this.processFiles(files);
+  }
+
+  // async loadUploadedFrame(index: number): Promise<void> {
+  //   const frames = this.uploadedFrames();
+
+  //   if (!frames.length) {
+  //     return;
+  //   }
+
+  //   await this.vtkViewer.loadVtpFromFile(frames[index].file);
+
+  //   this.currentFrame.set(index + 1);
+
+  //   const fields = this.vtkViewer.getFields();
+
+  //   this.fields.set(fields);
+
+  //   this.dataset.set(this.vtkViewer.getDatasetInfo());
+
+  //   if (fields.length) {
+  //     this.selectField(fields[0]);
+  //   }
+  // }
+
+  async loadUploadedFrame(index: number): Promise<void> {
+    const frames = this.uploadedFrames();
+
+    if (!frames.length) {
+      return;
+    }
+
+    this.loading.set(true);
+
+    try {
+      const frame = frames[index];
+
+      await this.vtkViewer.loadVtpFromFile(frame.file);
+
+      this.currentFrame.set(index + 1);
+
+      const fields = this.vtkViewer.getFields();
+
+      this.fields.set(fields);
+
+      this.dataset.set(this.vtkViewer.getDatasetInfo());
+
+      if (fields.length) {
+        this.selectField(fields[0]);
+      }
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  // Drag and Drop
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+
+    this.dragOver.set(true);
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+
+    this.dragOver.set(false);
+  }
+
+  async onDrop(event: DragEvent): Promise<void> {
+    event.preventDefault();
+
+    this.dragOver.set(false);
+
+    const files = Array.from(event.dataTransfer?.files ?? []);
+
+    await this.processFiles(files);
+  }
+
+  private async processFiles(files: File[]): Promise<void> {
+    const frames = files
+      .filter((file) => file.name.toLowerCase().endsWith('.vtp'))
+      .map((file) => {
+        const match = file.name.match(/-(\d+)\.vtp$/i);
+
+        return {
+          frame: Number(match?.[1] ?? 0),
+
+          file,
+        };
+      })
+      .sort((a, b) => a.frame - b.frame);
+
+    this.uploadedFrames.set(frames);
+    
+    this.frameCount.set(frames.length);
+    
+    this.uploadedFileCount.set(frames.length);
+
+    if (frames.length) {
+      await this.loadUploadedFrame(0);
+    }
   }
 }

@@ -40,3 +40,20 @@ export interface UploadedFrame {
   frame: number;
   file: File;
 }
+
+export interface PointValues {
+  velocity?: number[];
+  velocityMagnitude?: number;
+  eta?: number;
+  WL?: number;
+  Hs?: number;
+  breaking?: number;
+  coastline?: number;
+  wetdry?: number;
+}
+
+export interface PickedPoint {
+  pointId: number;
+  coordinates: [number, number, number];
+  values: PointValues;
+}

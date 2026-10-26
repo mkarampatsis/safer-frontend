@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { VtkViewerService } from 'src/app/shared/services/vtk-viewer.service';
-import { FieldInfo } from 'src/app/shared/interfaces/vtk-dataset.interface';
+import { FieldInfo, PickedPoint } from 'src/app/shared/interfaces/vtk-dataset.interface';
 import { UploadedFrame } from 'src/app/shared/interfaces/vtk-dataset.interface';
 import { environment } from 'src/environments/environment';
 
@@ -59,9 +59,22 @@ export class ReefViewer implements AfterViewInit {
   readonly dragOver = signal(false);
   readonly uploadedFileCount = signal(0);
 
+  // for vlialization picker
+  readonly pickedPoint = signal<PickedPoint | null>(null);
+
   async ngAfterViewInit(): Promise<void> {
     this.vtkViewer.initialize(this.viewer.nativeElement);
 
+    // this line if for picking nodes from vizualization
+    this.viewer.nativeElement.addEventListener('click', (event: MouseEvent) => {
+      const point = this.vtkViewer.pickPoint(event.offsetX, event.offsetY);
+
+      if (point) {
+        console.log("Picked Point", point);
+        this.pickedPoint.set(point);
+      }
+    });
+    
     await this.vtkViewer.loadVtp(`${this.modelUri}/models/REEF3D-NHFLOW-FSF-00002475-000001.vtp`);
 
     this.dataset.set(this.vtkViewer.getDatasetInfo());
@@ -342,9 +355,9 @@ export class ReefViewer implements AfterViewInit {
       .sort((a, b) => a.frame - b.frame);
 
     this.uploadedFrames.set(frames);
-    
+
     this.frameCount.set(frames.length);
-    
+
     this.uploadedFileCount.set(frames.length);
 
     if (frames.length) {

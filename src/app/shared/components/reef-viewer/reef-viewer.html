@@ -1,122 +1,93 @@
 <div class="container-fluid h-100">
-
   <div class="row h-100">
-
     <!-- Sidebar -->
     <div class="col-12 col-lg-3 py-2">
-
       <div class="d-flex flex-column gap-3">
-
         <!-- Dataset -->
         <div class="card shadow-sm">
-
           <div class="card-header">Dataset</div>
 
           <div class="card-body">
-
             @if (dataset(); as ds) {
-            <div class="small">
-              <div>
-                <strong>Points:</strong>
-                {{ ds.points | number }},
-                <strong>Cells:</strong>
-                {{ ds.cells | number }}
-              </div>
+              <div class="small">
+                <div>
+                  <strong>Points:</strong>
+                  {{ ds.points | number }},
+                  <strong>Cells:</strong>
+                  {{ ds.cells | number }}
+                </div>
 
-              <!-- <div>
+                <!-- <div>
                   <strong>Cells:</strong>
                   {{ ds.cells | number }}
                 </div> -->
-            </div>
+              </div>
             }
-
           </div>
-
         </div>
 
         <!-- Scalar Fields -->
         <div class="card shadow-sm">
-
-          <div class="card-header">
-            Scalar Fields
-          </div>
+          <div class="card-header">Scalar Fields</div>
 
           <div class="card-body">
-
             <div class="row g-2">
-
               @for (field of fields(); track field) {
-
-              <div class="col-6">
-
-                <button type="button" class="btn btn-sm w-100" [class.btn-primary]="activeField() === field"
-                  [class.btn-outline-primary]="activeField() !== field" (click)="selectField(field)">
-                  {{ field }}
-                </button>
-
-              </div>
-
+                <div class="col-6">
+                  <button
+                    type="button"
+                    class="btn btn-sm w-100"
+                    [class.btn-primary]="activeField() === field"
+                    [class.btn-outline-primary]="activeField() !== field"
+                    (click)="selectField(field)"
+                  >
+                    {{ field }}
+                  </button>
+                </div>
               }
-
             </div>
-
           </div>
-
         </div>
 
         <!-- View Options -->
         <div class="card shadow-sm">
-
-          <div class="card-header">
-            View Options
-          </div>
+          <div class="card-header">View Options</div>
 
           <div class="card-body">
-
             <div class="d-flex gap-3">
-
               <div class="form-check">
+                <input
+                  id="wireframe"
+                  class="form-check-input"
+                  type="checkbox"
+                  [checked]="wireframe()"
+                  (change)="toggleWireframe($event)"
+                />
 
-                <input id="wireframe" class="form-check-input" type="checkbox" [checked]="wireframe()"
-                  (change)="toggleWireframe($event)">
-
-                <label class="form-check-label" for="wireframe">
-
-                  Wireframe
-
-                </label>
-
+                <label class="form-check-label" for="wireframe"> Wireframe </label>
               </div>
 
               <div class="form-check">
+                <input
+                  id="edges"
+                  class="form-check-input"
+                  type="checkbox"
+                  [checked]="edges()"
+                  (change)="toggleEdges($event)"
+                />
 
-                <input id="edges" class="form-check-input" type="checkbox" [checked]="edges()"
-                  (change)="toggleEdges($event)">
-
-                <label class="form-check-label" for="edges">
-
-                  Edges
-
-                </label>
-
+                <label class="form-check-label" for="edges"> Edges </label>
               </div>
-
             </div>
-
           </div>
-
         </div>
 
         <!-- Legend -->
         @if (selectedFieldInfo(); as fieldInfo) {
+          <div class="card shadow-sm">
+            <div class="card-header">Legend</div>
 
-        <div class="card shadow-sm">
-
-          <div class="card-header">
-            Legend
-          </div>
-
-          <!-- <div class="card-body text-center">
+            <!-- <div class="card-body text-center">
 
             <div class="fw-bold mb-3">
               {{ fieldInfo.name }}
@@ -155,50 +126,152 @@
             </div>
 
           </div> -->
-          <div class="card-body">
+            <div class="card-body">
+              <div class="small mb-2">
+                <strong>
+                  {{ fieldInfo.name }}
+                </strong>
 
-            <div class="small mb-2">
-
-              <strong>
-                {{ fieldInfo.name }}
-              </strong>
-
-              <span class="text-muted ms-2">
-                ({{ fieldInfo.components }} comp.)
-              </span>
-
-            </div>
-
-            <div class="d-flex align-items-center gap-2">
-
-              <small>
-                {{ fieldInfo.min.toFixed(3) }}
-              </small>
-
-              <div class="legend-bar flex-grow-1">
-
-                @for (
-                color of legendColors;
-                track color
-                ) {
-
-                <div class="legend-segment" [style.background]="color">
-                </div>
-
-                }
-
+                <span class="text-muted ms-2"> ({{ fieldInfo.components }} comp.) </span>
               </div>
 
-              <small>
-                {{ fieldInfo.max.toFixed(3) }}
-              </small>
+              <div class="d-flex align-items-center gap-2">
+                <small>
+                  {{ fieldInfo.min.toFixed(3) }}
+                </small>
 
+                <div class="legend-bar flex-grow-1">
+                  @for (color of legendColors; track color) {
+                    <div class="legend-segment" [style.background]="color"></div>
+                  }
+                </div>
+
+                <small>
+                  {{ fieldInfo.max.toFixed(3) }}
+                </small>
+              </div>
             </div>
-
           </div>
+        }
 
-        </div>
+        <!-- for show picking elements from vizualization -->
+        @if (pickedPoint(); as point) {
+          <div class="card shadow-sm">
+            <div class="card-header">Selected Node</div>
 
+            <div class="card-body">
+              <div class="row text-center">
+                <div class="col">
+                  <div class="small text-muted">Point ID</div>
+
+                  <div class="fw-bold">
+                    {{ point.pointId }}
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row g-2">
+                <div class="col-4">
+                  <small class="text-muted"> X </small>
+
+                  <div>
+                    {{ point.coordinates[0].toFixed(2) }}
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <small class="text-muted"> Y </small>
+
+                  <div>
+                    {{ point.coordinates[1].toFixed(2) }}
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <small class="text-muted"> Z </small>
+
+                  <div>
+                    {{ point.coordinates[2].toFixed(2) }}
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row g-2">
+                <div class="col-6">
+                  <small class="text-muted"> Hs </small>
+
+                  <div>
+                    {{ point.values['Hs'] | number: '1.3-3' }}
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <small class="text-muted"> WL </small>
+
+                  <div>
+                    {{ point.values['WL'] | number: '1.3-3' }}
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <small class="text-muted"> eta </small>
+
+                  <div>
+                    {{ point.values['eta'] | number: '1.3-3' }}
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <small class="text-muted"> wetdry </small>
+
+                  <div>
+                    {{ point.values['wetdry'] }}
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              @if (point.values['velocity']; as velocity) {
+                <h6>Velocity</h6>
+
+                <div class="row">
+                  <div class="col-4">
+                    Ux
+                    <div>
+                      {{ $any(velocity)[0] }}
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    Uy
+                    <div>
+                      {{ $any(velocity)[1] }}
+                    </div>
+                  </div>
+
+                  <div class="col-4">
+                    Uz
+                    <div>
+                      {{ velocity[2] }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-2">
+                  Magnitude:
+
+                  <span class="fw-bold">
+                    {{ point.values['velocityMagnitude'] | number: '1.3-3' }}
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
         }
 
         <!-- Upload FIle -->
@@ -217,154 +290,110 @@
         </div> -->
 
         <div class="card shadow-sm">
-
-          <div class="card-header">
-            Upload Simulation
-          </div>
+          <div class="card-header">Upload Simulation</div>
 
           <div class="card-body">
-
-            <div class="upload-dropzone" [class.drag-over]="dragOver()" (dragover)="onDragOver($event)"
-              (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-
+            <div
+              class="upload-dropzone"
+              [class.drag-over]="dragOver()"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              (drop)="onDrop($event)"
+            >
               <div class="text-center">
+                <h6 class="mb-2">Drop VTP Files Here</h6>
 
-                <h6 class="mb-2">
-                  Drop VTP Files Here
-                </h6>
+                <p class="text-muted small mb-3">REEF3D / OpenFOAM Timesteps</p>
 
-                <p class="text-muted small mb-3">
-                  REEF3D / OpenFOAM Timesteps
-                </p>
-
-                <input class="form-control" type="file" accept=".vtp" multiple (change)="onFilesSelected($event)">
-
+                <input
+                  class="form-control"
+                  type="file"
+                  accept=".vtp"
+                  multiple
+                  (change)="onFilesSelected($event)"
+                />
               </div>
-
             </div>
 
             @if (uploadedFrames().length > 0) {
+              <div class="alert alert-success mt-3 mb-0">
+                <div>
+                  <strong>
+                    {{ uploadedFrames().length }}
+                  </strong>
+                  files loaded
+                </div>
 
-            <div class="alert alert-success mt-3 mb-0">
+                <small class="text-muted">
+                  Frame
+                  {{ uploadedFrames()[0].frame }}
 
-              <div>
-                <strong>
-                  {{ uploadedFrames().length }}
-                </strong>
-                files loaded
+                  → Frame
+                  {{ uploadedFrames()[uploadedFrames().length - 1].frame }}
+                </small>
               </div>
-
-              <small class="text-muted">
-
-                Frame
-                {{ uploadedFrames()[0].frame }}
-
-                →
-
-                Frame
-                {{ uploadedFrames()[uploadedFrames().length - 1].frame }}
-
-              </small>
-
-            </div>
-
             }
-
           </div>
-
         </div>
 
         <!-- Time Series -->
         <div class="card shadow-sm">
-
-          <div class="card-header">
-            Time Series
-          </div>
+          <div class="card-header">Time Series</div>
 
           <div class="card-body">
-
-            <div class="d-flex
-         align-items-center
-         justify-content-between
-         mb-3">
-
+            <div class="d-flex align-items-center justify-content-between mb-3">
               <span>
-
                 Frame
 
                 <span class="badge bg-primary">
-
                   {{ currentFrame() }}
-
                 </span>
-
               </span>
 
               <div class="btn-group">
-
                 <button class="btn btn-success btn-sm" [disabled]="isPlaying()" (click)="play()">
-
                   ▶
-
                 </button>
 
                 <button class="btn btn-danger btn-sm" [disabled]="!isPlaying()" (click)="pause()">
-
                   ❚❚
-
                 </button>
-
               </div>
-
             </div>
 
-            <hr>
+            <hr />
 
             <label class="form-label mt-2">
-
               Playback Speed
 
-              <span class="badge bg-secondary ms-2">
-                {{ frameRate() }} FPS
-              </span>
-
+              <span class="badge bg-secondary ms-2"> {{ frameRate() }} FPS </span>
             </label>
 
-            <input class="form-range" type="range" min="1" max="10" [value]="frameRate()"
-              (input)="setFrameRate($event)" />
-
+            <input
+              class="form-range"
+              type="range"
+              min="1"
+              max="10"
+              [value]="frameRate()"
+              (input)="setFrameRate($event)"
+            />
           </div>
-
         </div>
-
       </div>
-
     </div>
 
     <!-- Viewer -->
     <div class="col-12 col-lg-9 py-2">
-
       <div class="position-relative border rounded bg-dark h-100">
-
         @if (loading()) {
-
-        <div class="position-absolute top-50 start-50 translate-middle z-3">
-
-          <div class="spinner-border text-light" role="status">
+          <div class="position-absolute top-50 start-50 translate-middle z-3">
+            <div class="spinner-border text-light" role="status"></div>
           </div>
-
-        </div>
-
         }
 
         <!-- <div #viewer class="viewer-container w-100 h-100"> -->
-        <div #viewer class="w-100 h-100">
-        </div>
-
+        <div #viewer class="w-100 h-100"></div>
       </div>
-
     </div>
-
   </div>
-
 </div>

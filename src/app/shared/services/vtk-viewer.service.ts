@@ -1,5 +1,5 @@
 import { Service } from '@angular/core';
-import { FieldInfo } from '../interfaces/vtk-dataset.interface';
+import { FieldInfo, PickedPoint } from 'src/app/shared/interfaces/vtk-dataset.interface';
 
 import vtkActor from '@kitware/vtk.js/Rendering/Core/Actor';
 import vtkMapper from '@kitware/vtk.js/Rendering/Core/Mapper';
@@ -10,6 +10,8 @@ import vtkRenderWindowInteractor from '@kitware/vtk.js/Rendering/Core/RenderWind
 import vtkInteractorStyleTrackballCamera from '@kitware/vtk.js/Interaction/Style/InteractorStyleTrackballCamera';
 import vtkXMLPolyDataReader from '@kitware/vtk.js/IO/XML/XMLPolyDataReader';
 import vtkColorTransferFunction from '@kitware/vtk.js/Rendering/Core/ColorTransferFunction';
+import vtkPointPicker from '@kitware/vtk.js/Rendering/Core/PointPicker';
+import vtkPolyData from '@kitware/vtk.js/Common/DataModel/PolyData';
 
 @Service()
 export class VtkViewerService {
@@ -18,6 +20,8 @@ export class VtkViewerService {
   private actor!: vtkActor;
   private mapper!: vtkMapper;
   private lookupTable = vtkColorTransferFunction.newInstance();
+  private picker = vtkPointPicker.newInstance();
+  private currentPolyData: vtkPolyData | null = null;
 
   initialize(container: HTMLElement): void {
     this.renderWindow = vtkRenderWindow.newInstance();
@@ -75,6 +79,17 @@ export class VtkViewerService {
 
     const polyData = reader.getOutputData();
 
+    this.currentPolyData = reader.getOutputData();
+    // console.log(
+    //   this.currentPolyData
+    //     ?.getPointData()
+    //     .getArrays()
+    //     .map((a) => ({
+    //       name: a.getName(),
+    //       components: a.getNumberOfComponents(),
+    //     })),
+    // );
+
     this.mapper.setInputData(polyData);
 
     this.renderer.resetCamera();
@@ -90,6 +105,17 @@ export class VtkViewerService {
     reader.parseAsArrayBuffer(arrayBuffer);
 
     const polyData = reader.getOutputData();
+
+    this.currentPolyData = reader.getOutputData();
+    // console.log(
+    //   this.currentPolyData
+    //     ?.getPointData()
+    //     .getArrays()
+    //     .map((a) => ({
+    //       name: a.getName(),
+    //       components: a.getNumberOfComponents(),
+    //     })),
+    // );
 
     this.mapper.setInputData(polyData);
 
@@ -113,11 +139,8 @@ export class VtkViewerService {
 
   colorBy(fieldName: string): void {
     this.mapper.setColorByArrayName(fieldName);
-
     this.mapper.setScalarModeToUsePointFieldData();
-
     this.mapper.setScalarVisibility(true);
-
     this.renderWindow.render();
   }
 
@@ -193,19 +216,12 @@ export class VtkViewerService {
     const range = array.getRange();
 
     this.lookupTable.setMappingRange(range[0], range[1]);
-
     this.lookupTable.updateRange();
-
     this.mapper.setLookupTable(this.lookupTable);
-
     this.mapper.setScalarRange(range[0], range[1]);
-
     this.mapper.setColorByArrayName(fieldName);
-
     this.mapper.setScalarModeToUsePointFieldData();
-
     this.mapper.setScalarVisibility(true);
-
     this.renderWindow.render();
   }
 
@@ -258,5 +274,41 @@ export class VtkViewerService {
       max: range[1],
       components: array.getNumberOfComponents(),
     };
+  }
+
+  // For showing node data when clicking to visualization
+  pickPoint(x: number, y: number): PickedPoint | null {
+    if (!this.currentPolyData) {
+      return null;
+    }
+
+    this.picker.pick([x, y, 0], this.renderer);
+
+    const pointId = this.picker.getPointId();
+
+    if (pointId < 0) {
+      return null;
+    }
+
+    const point = this.currentPolyData.getPoints().getPoint(pointId);
+    const coordinates: [number, number, number] = [point[0], point[1], point[2]];
+    const values: Record<string, any> = {};
+    const arrays = this.currentPolyData.getPointData().getArrays();
+
+    arrays.forEach((array) => {
+      const tuple = Array.from(array.getTuple(pointId));
+
+      values[array.getName()] = tuple.length === 1 ? tuple[0] : tuple;
+    });
+
+    const velocity = values['velocity'];
+
+    if (Array.isArray(velocity) && velocity.length === 3) {
+      values['velocityMagnitude'] = Math.sqrt(
+        velocity[0] * velocity[0] + velocity[1] * velocity[1] + velocity[2] * velocity[2],
+      );
+    }
+
+    return { pointId, coordinates, values };
   }
 }

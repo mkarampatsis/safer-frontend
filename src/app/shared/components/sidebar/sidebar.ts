@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 // import { SideForm1 } from './side-form1/side-form1';
 import { SideForm2 } from './side-form2/side-form2';
-import { SelectLocation } from './select-location/select-location';
+import { SelectLocationHazard } from './select-location-hazard/select-location-hazard';
 // import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -14,8 +14,8 @@ import { SelectLocation } from './select-location/select-location';
 export class Sidebar {
   private offcanvasService = inject(NgbOffcanvas);
 
-  openSelectLocationSideBar() {
-		const offcanvasRef = this.offcanvasService.open(SelectLocation);
+  openSelectLocationHazardSideBar() {
+		const offcanvasRef = this.offcanvasService.open(SelectLocationHazard);
 		offcanvasRef.componentInstance.name = 'World';
 	}
 

@@ -1,0 +1,111 @@
+<div class="offcanvas-header">
+  <h5 class="offcanvas-title">Select Location</h5>
+  <button
+    type="button"
+    class="btn-close text-reset"
+    aria-label="Close"
+    (click)="activeOffcanvas.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="offcanvas-body">
+  <label for="site">Site</label>
+  <select
+    id="site"
+    class="form-select"
+    [ngModel]="selectedSite?.site ?? ''"
+    (ngModelChange)="onSiteChange($event)"
+    name="site"
+  >
+    <option value="">Select a site</option>
+    <option *ngFor="let site of locations" [value]="site.site">
+      {{ site.site }}
+    </option>
+  </select>
+
+  <label for="location" class="mt-3">Location</label>
+  <select
+    id="location"
+    class="form-select"
+    [disabled]="!selectedSite"
+    [ngModel]="selectedLocation?.location ?? ''"
+    (ngModelChange)="onLocationChange($event)"
+    name="location"
+  >
+    <option value="">Select a location</option>
+    <option *ngFor="let location of selectedSite?.locations" [value]="location.location">
+      {{ location.location }}
+    </option>
+  </select>
+
+  <label for="area" class="mt-3">Area</label>
+  <select
+    id="area"
+    class="form-select"
+    [disabled]="!selectedLocation || selectedLocation.areas.length === 0"
+    [(ngModel)]="selectedArea"
+    name="area"
+  >
+    <option value="">Select an area</option>
+    <option *ngFor="let area of selectedLocation?.areas" [value]="area">
+      {{ area }}
+    </option>
+  </select>
+
+  <label for="hazard" class="form-label">Hazard</label>
+  <select
+    id="hazard"
+    class="form-select"
+    [ngModel]="selectedHazard?.type ?? ''"
+    (ngModelChange)="onHazardChange($event)"
+    name="hazard"
+  >
+    <option value="">Select a hazard</option>
+    <option *ngFor="let hazard of hazards" [value]="hazard.type">
+      {{ hazard.type }}
+    </option>
+  </select>
+
+  <label for="scenario" class="form-label mt-3">Scenario</label>
+  <select
+    id="scenario"
+    class="form-select"
+    [disabled]="!selectedHazard"
+    [ngModel]="selectedScenario?.name ?? ''"
+    (ngModelChange)="onScenarioChange($event)"
+    name="scenario"
+  >
+    <option value="">Select a scenario</option>
+    <option *ngFor="let scenario of selectedHazard?.scenario.scenarions" [value]="scenario.name">
+      {{ scenario.name }}
+    </option>
+  </select>
+
+  <div class="d-flex justify-content-between mt-3">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="activeOffcanvas.close('Close click')"
+    >
+      Close
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-outline-success"
+      [disabled]="!selectedHazard || !selectedScenario"
+      (click)="saveHazardSelection()"
+    >
+      Select Hazard
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      [disabled]="!selectedSite || !selectedLocation"
+      (click)="saveSiteSelection()"
+    >
+      Select Site
+    </button>
+  </div>
+</div>
+
